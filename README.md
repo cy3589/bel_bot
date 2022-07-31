@@ -1,4 +1,4 @@
-# BEL_BOT
+# BLE_BOT
 ## With Telegram BOT
 - Node.js 의 Bluetooth 제어 Library인 noble과 node상위버전에서 동작하게 패치된 bluetooth-hci-socket 라이브러리 사용
 - scan을 시작하고 MAC Adress와 advertisement.localName 이 미리 설정한 값과 일치하면 connect를 시도

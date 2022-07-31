@@ -4,12 +4,12 @@
 // Keep your token secure and store it safely, it can be used by anyone to control your bot.
 // 88:25:83:F4:DD:9D MLT-BT05
 
-let count  = 0;
-const increaseCount = () => {
-    count++;
-    console.log({count});
-}
-const countInterval = setInterval(increaseCount, 1000);
+// let count  = 0;
+// const increaseCount = () => {
+//     count++;
+//     console.log({count});
+// }
+// const countInterval = setInterval(increaseCount, 1000);
 
 const noble = require("noble");
 const axios = require('axios').default;
@@ -23,22 +23,23 @@ const sendMessage = async (text) => {
 
 noble.on("stateChange", async (state) => {
     // console.log({state});
-    if(state==='poweredOn') noble.startScanning([], true);
+    // if(state==='poweredOn') noble.startScanning([], true);
+    if(state==='poweredOn') noble.startScanning();
 });
-
+const connectCallback = async (error) => {
+    console.log("connected");
+    await sendMessage("집 도착");
+};
+const disconnectCallback = async (error) => {
+    console.log("disconnect");
+    await noble.stopScanning();
+    await noble.startScanning();
+    await sendMessage("외출");
+};
 noble.on("discover", async (discover) => {
-    if(discover.address === "88:25:83:F4:DD:9D" && discover.advertisement.localName === 'MLT-BT05'){
+    if(discover.address.toUpperCase() === "88:25:83:F4:DD:9D" && discover.advertisement.localName === 'MLT-BT05'){
+        if(discover.listenerCount("connect") === 0) await discover.prependListener("connect", connectCallback);
+        if(discover.listenerCount("disconnect") === 0) await discover.prependListener("disconnect", disconnectCallback);
         await discover.connect();
-        await discover.prependListener("connect", async (error) => {
-            console.log("connected");
-            await sendMessage("집 도착");
-            await discover.prependListener("disconnect", async (error) => {
-                // console.log("disconnect");
-                await discover.removeAllListeners();
-                await noble.stopScanning();
-                await noble.startScanning();
-                await sendMessage("외출");
-            });
-        });
     }
 })      

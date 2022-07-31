@@ -1,0 +1,12 @@
+{
+  "name": "NODE_BLE",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bluetooth-hci-socket": "https://github.com/abandonware/node-bluetooth-hci-socket",
+    "noble": "https://github.com/jacobrosenthal/noble.git#highsierra",
+    "node-beacon-scanner": "^0.2.2"
+  }
+}

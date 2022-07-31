@@ -1,15 +1,12 @@
-// Done! Congratulations on your new bot. You will find it at t.me/My_BLE_Bot.
-// Use this token to access the HTTP API:
-// 5593353604:AAEp8W8IUnUGZoD34vB113HM-xccxApUFCk
-// Keep your token secure and store it safely, it can be used by anyone to control your bot.
-// 88:25:83:F4:DD:9D MLT-BT05
-
-// let count  = 0;
-// const increaseCount = () => {
-//     count++;
-//     console.log({count});
-// }
-// const countInterval = setInterval(increaseCount, 1000);
+/**
+ * Hardware
+ *  - MAC ADDRESS: 88:25:83:F4:DD:9D
+ *  - LOCAL NAME: MLT-BT05
+ * Telegram
+ *  - Bot Token : 5593353604:AAEp8W8IUnUGZoD34vB113HM-xccxApUFCk
+ *  - chatId: 5463612881
+ *  - Get Chat ID: Visit `https://api.telegram.org/bot${BotToken}/getUpdates`
+ */
 
 const noble = require("noble");
 const axios = require('axios').default;
@@ -22,16 +19,12 @@ const sendMessage = async (text) => {
 };
 
 noble.on("stateChange", async (state) => {
-    // console.log({state});
-    // if(state==='poweredOn') noble.startScanning([], true);
     if(state==='poweredOn') noble.startScanning();
 });
-const connectCallback = async (error) => {
-    console.log("connected");
+const connectCallback = async () => {
     await sendMessage("집 도착");
 };
-const disconnectCallback = async (error) => {
-    console.log("disconnect");
+const disconnectCallback = async () => {
     await noble.stopScanning();
     await noble.startScanning();
     await sendMessage("외출");

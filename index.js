@@ -22,12 +22,20 @@ noble.on("stateChange", async (state) => {
     if(state==='poweredOn') noble.startScanning();
 });
 const connectCallback = async () => {
-    await sendMessage("집 도착");
+    try {
+        await sendMessage("집 도착");
+    } catch (error) {
+        console.error(error);
+    }
 };
 const disconnectCallback = async () => {
     await noble.stopScanning();
     await noble.startScanning();
-    await sendMessage("외출");
+    try {
+        await sendMessage("외출");
+    } catch (error) {
+        console.error(error);
+    }
 };
 noble.on("discover", async (discover) => {
     if(discover.address.toUpperCase() === "88:25:83:F4:DD:9D" && discover.advertisement.localName === 'MLT-BT05'){

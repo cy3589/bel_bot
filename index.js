@@ -11,6 +11,9 @@
 const noble = require("noble");
 const axios = require('axios').default;
 
+const MAC_ADDRESS = "88:25:83:F4:DD:9D";
+const LOCAL_NAME = "MLT-BT05";
+
 const telegramBotToken = "5593353604:AAEp8W8IUnUGZoD34vB113HM-xccxApUFCk";
 const telegramChatId = "5463612881";
 const sendMessage = async (text) => {
@@ -38,7 +41,7 @@ const disconnectCallback = async () => {
     }
 };
 noble.on("discover", async (discover) => {
-    if(discover.address.toUpperCase() === "88:25:83:F4:DD:9D" && discover.advertisement.localName === 'MLT-BT05'){
+    if(discover.address.toUpperCase() === MAC_ADDRESS && discover.advertisement.localName === LOCAL_NAME){
         if(discover.listenerCount("connect") === 0) await discover.prependListener("connect", connectCallback);
         if(discover.listenerCount("disconnect") === 0) await discover.prependListener("disconnect", disconnectCallback);
         await discover.connect();

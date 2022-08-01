@@ -86,7 +86,7 @@
 
 > ## 초기 세팅
 >
-> - ssh로 라즈베리파이에 접속되었다면 터미널에서
+> - ssh로 라즈베리파이에 접속되었다면 터미널에서  
 >   `sudo apt-get update`  
 >   `sudo apt-get upgrade`  
 >   `curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`  

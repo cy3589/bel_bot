@@ -51,15 +51,15 @@
 
 > ### OS설치
 >
-> - Raspberry Pi Imager 실행  
-> - 운영체제 -> 삭제 -> 저장소 선택-> SD카드 선택 -> 쓰기 -> OK  
-> - 운영체제 -> RASPBERRY PI OS(32-BIT) 선택 -> SD카드 선택  
-> - 우측 하단의 설정(톱니) 클릭 -> SSH 사용  
-> - 사용자 이름 및 비밀번호 설정 -> 사용할 이름과 비밀번호 입력  
-> - wifi설정(optional) -> SSID, 비밀번호 입력  
-> - 나머지 Default 그대로 사용  
-> - 저장  
-> - 쓰기  
+> - Raspberry Pi Imager 실행
+> - 운영체제 -> 삭제 -> 저장소 선택-> SD카드 선택 -> 쓰기 -> OK
+> - 운영체제 -> RASPBERRY PI OS(32-BIT) 선택 -> SD카드 선택
+> - 우측 하단의 설정(톱니) 클릭 -> SSH 사용
+> - 사용자 이름 및 비밀번호 설정 -> 사용할 이름과 비밀번호 입력
+> - wifi설정(optional) -> SSID, 비밀번호 입력
+> - 나머지 Default 그대로 사용
+> - 저장
+> - 쓰기
 >
 > ### SSH 접속 세팅(VSCODE)
 >
@@ -82,7 +82,7 @@
 > >
 > > 다음과 같은 에러메세지가 뜬다면 cmd와 같은 콘솔을 열어  
 > > ssh-keygen -R HostName을 입력하여 ssh 키를 재생성 한다.  
-> > Ex) ssh-keygen -R 192.168.0.7  
+> > Ex) ssh-keygen -R 192.168.0.7
 
 > ## 초기 세팅
 >
@@ -107,3 +107,14 @@
 > ## Start
 >
 > `sudo node index.js`
+
+> ## BlueTooth 모듈 세팅
+>
+> - 위 과정의 Setup 까지 완료되었다면 (Start를 했다면 Ctrl+C 또는 Ctrl+Z를 입력하여 종료)
+> - 블루투스 모듈에 전원을 넣고 콘솔에서
+>
+> ```
+> bluetoothctl 을 입력 -> scan on 을 입력 -> MLT-05가 포함된 라인을 찾는다(상술한 블루투스 모듈 사용 기준)
+> 맨 앞 MAC ADDRESS를 index.js 파일 내 MAC_ADDRESS를 교체(필요에 따라 LOCAL_NAME도 교체하여 사용 가능)
+> 저장하고 다시 sudo node index.js를 입력하여 실행
+> ```

@@ -46,3 +46,64 @@
 > - 블루투스 모듈이 라즈베리파이와 멀어져 disconnect 이벤트가 발생하면 위와 같은 로직으로 미리 정의한 메세지를 텔레그램을 통해 사용자가 받는다.
 
 > 블루투스 모듈의 복잡한 기능이나 state핀 등의 기능은 이용하지 않으며 전원만을 공급하여 광고모드(advertise)로만 이용하였다.
+
+## Raspberry Pi Setting Guid
+
+> ### OS설치
+>
+> - Raspberry Pi Imager 실행
+> - 운영체제 -> 삭제 -> 저장소 선택-> SD카드 선택 -> 쓰기 -> OK
+> - 운영체제 -> RASPBERRY PI OS(32-BIT) 선택 -> SD카드 선택
+> - 우측 하단의 설정(톱니) 클릭 -> SSH 사용
+> - 사용자 이름 및 비밀번호 설정 -> 사용할 이름과 비밀번호 입력
+> - wifi설정(optional) -> SSID, 비밀번호 입력
+> - 나머지 Default 그대로 사용
+> - 저장
+> - 쓰기
+>
+> ### SSH 접속 세팅(VSCODE)
+>
+> - 공유기 페이지 접속 -> 라즈베리파이에 할당된 내부 IP 확인
+> - F1 -> Remote입력 -> Remote-SSH: Open SSH Configuration file 클릭
+>
+> ```
+> Host 호스트이름(임의로 지정)
+> HostName 위에서 확인한 내부 IP
+> User 위의 OS설치 에서 설정한 이름
+> ```
+>
+> -F1 -> Remote-SSH: Connect to Host -> 호스트이름 클릭 -> 비밀번호 입력
+>
+> > ```
+> > @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+> > @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > ```
+> >
+> > 다음과 같은 에러메세지가 뜬다면 cmd와 같은 콘솔을 열어
+> > ssh-keygen -R HostName을 입력하여 ssh 키를 재생성 한다.
+> > Ex) ssh-keygen -R 192.168.0.7
+
+> ## 초기 세팅
+>
+> - ssh로 라즈베리파이에 접속되었다면 터미널에서
+>   `sudo apt-get update`  
+>   `sudo apt-get upgrade`  
+>   `curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`  
+>   `echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`  
+>   `sudo apt update`  
+>   `sudo apt install yarn`  
+>   `curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh` > `curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh`  
+>   `sudo bash nodesource_setup.sh`  
+>   `sudo apt-get install -y nodejs`  
+>   `rm nodesource_setup.sh`
+
+> ## Setup
+>
+> `git clone https://github.com/cy3589/ble_bot.git NODE_BLE`  
+> `cd NODE_BLE`  
+> `yarn`
+>
+> ## Start
+>
+> `sudo node index.js`

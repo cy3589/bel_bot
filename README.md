@@ -6,7 +6,7 @@
 > - scan을 시작하고 MAC Adress와 advertisement.localName 이 미리 설정한 값과 일치하면 connect를 시도
 > - connect 이벤트에 이벤트리스너를 등록하고 이벤트가 발생하면 Telegram Bot에 메세지를 전송하는 통신 함수를 호출
 > - disconnect도 위와 마찬가지로 동작하며, 재연결 시 동작의 보장을 위해 기존의 이벤트 리스너를 모두 삭제하고 scan을 재시작 하는 코드를 포함한다.
-> - 리스너가 계속 늘어나는 현상을 방지하기 위해 해당 블루투스 모듈의 이벤트리스너 갯수가 0이 아니라면 등록을 스킵하는 로직이 포함되어 있다.
+> - ~~리스너가 계속 늘어나는 현상을 방지하기 위해 해당 블루투스 모듈의 이벤트리스너 갯수가 0이 아니라면 등록을 스킵하는 로직이 포함되어 있다.~~
 > - 라즈베리 파이의 OS 설치 디스크인 SD카드 내에 부팅 시 자동실행 스크립트를 포함시켜 시작할 수 있으며 이 경우를 고려하여, 인터넷 연결이 고르지 못해 telegram 메세지 전송이 실패할 수 있으므로 통신 구문은 try-catch로 감싸 종료되지 않게 처리하였다.
 
 > ### 텔레그램 봇의 생성과 적용 순서
@@ -36,15 +36,23 @@
 >   - 실행기: Node.js
 >   - 라이브러리
 >     - "axios": "^0.27.2"
->     - "bluetooth-hci-socket": "https://github.com/abandonware/node-bluetooth-hci-socket"
->     - "noble": "https://github.com/jacobrosenthal/noble.git#highsierra"
->     - "node-beacon-scanner": "^0.2.2"
+>     - "@abandonware/noble": "^1.9.2-15"  
 
 > ### 동작 (라즈베리파이 내에 작성되어있는 index.js가 정상적으로 실행되었다고 가정)
 >
-> - 블루투스 모듈이 라즈베리파이와 가까워지면 connect를 시도하며, connect이벤트가 발생하면 텔레그램 메세지 전송 함수가 실행되어 미리 정의한 메세지가 전송되어 사용자는 메세지를 받는다.
-> - 블루투스 모듈이 라즈베리파이와 멀어져 disconnect 이벤트가 발생하면 위와 같은 로직으로 미리 정의한 메세지를 텔레그램을 통해 사용자가 받는다.
-
+> - 서버가 실행되면 탐색을 시작  
+> - 블루투스 모듈이 탐지되면 아래 로직을 실행  
+>   - connect 이벤트에 connectCallback 이벤트 리스너를 등록  
+>   - disconnect 이벤트에 disconnectCallback 이벤트 리스너를 등록  
+>   - connect를 시도  
+>   - scanning을 stop  
+> - callbacks
+>   - connectCallback
+>     - 텔레그램 메세지를 전송  
+>   - disconnectCallback
+>       - 텔레그램 메세지를 전송  
+>       - scanning을 start
+> 
 > 블루투스 모듈의 복잡한 기능이나 state핀 등의 기능은 이용하지 않으며 전원만을 공급하여 광고모드(advertise)로만 이용하였다.
 
 ## Raspberry Pi Setting Guid
@@ -97,6 +105,7 @@
 >   `sudo bash nodesource_setup.sh`  
 >   `sudo apt-get install -y nodejs`  
 >   `rm nodesource_setup.sh`
+>   `sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev`  
 
 > ## Setup
 >
